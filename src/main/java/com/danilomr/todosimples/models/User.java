@@ -2,10 +2,13 @@ package com.danilomr.todosimples.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -27,6 +30,7 @@ public class User {
 
     //Maneira padrão de como configura o Username
     @Column(name = "username", length = 100, nullable = false, unique = true)
+    //@NotBlank(groups = CreateUser.class)
     @NotNull(groups = CreateUser.class)
     @NotEmpty (groups = CreateUser.class)//Server para o usuario nao deixa o campo vazio
     @Size(groups = CreateUser.class, min = 2, max = 100) //Serve ja para voce deixa o minimo e maximo de caractere quee o user deve coloca
@@ -34,13 +38,16 @@ public class User {
 
     //Maneira padrão de como configura o Password
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) // Carante que a senha nunca retorne para o front-Ent
+    //@NotBlank(groups = {CreateUser.class, UpdateUser.class})
     @Column(name = "password", length = 60, nullable = false)
     @NotNull(groups = {CreateUser.class, UpdateUser.class})
     @NotEmpty(groups = {CreateUser.class, UpdateUser.class}) //Server para o usuario nao deixa o campo vazio
     @Size(groups = {CreateUser.class, UpdateUser.class}, min = 8, max = 60) //Serve ja para voce deixa o minimo e maximo de caractere quee o user deve coloca
     private String password;
 
-    //private List<Task> taske = new ArrayList<Task>():
+    //MODELS TASK
+    @OneToMany(mappedBy = "user")// Um usuario pode ter varios dados
+    private List<Task> tasks = new ArrayList<Task>();
 
     public  User(){
 
@@ -74,6 +81,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
     }
 
 
