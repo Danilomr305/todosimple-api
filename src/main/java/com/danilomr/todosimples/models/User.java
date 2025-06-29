@@ -9,7 +9,7 @@ import jakarta.validation.constraints.Size;
 import java.util.Objects;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 public class User {
     //Para ter o controller de Criação de Usuario
     public interface CreateUser{}
@@ -17,7 +17,7 @@ public class User {
     //Para ter o controller de Atualizaão de Usuario
     public interface UpdateUser{}
 
-    public static final String TABLE_NAME = "user";
+    public static final String TABLE_NAME = "users";
 
     //Maneira padrão de como configura o ID
     @Id
