@@ -1,7 +1,6 @@
 package com.danilomr.todosimples.services;
 
 import com.danilomr.todosimples.models.User;
-import com.danilomr.todosimples.repository.TaskRepository;
 import com.danilomr.todosimples.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +14,9 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private TaskRepository taskRepository;
 
     //Busca pelo Id
-    public User findById(Long id) {
+    public User findByIdUsuario(Long id) {
         //OPTIONAL => Ajuda para se caso chama user existe mostra o user e se chama um nao existente so restorna uma String vazia
         //THIS -> foi coloca para que chamar so os atributos da class userRepository
         Optional<User> user = this.userRepository.findById(id);
@@ -30,28 +27,27 @@ public class UserService {
         ));
     }
 
-    //Criar um novo Usuario
+    //2Criar um novo Usuario
     //TRANSACTIONAL -> usar sempre que for salvar algo no banco, ajudar para que seja salva tudo no banco e nao pela metade
     //TRANSACTIONAL -> Não usar em tudo
     @Transactional
-    public  User crete(User obj) {
-        obj.setId(null); // Isso garante que vai zera o ID se caso existi e salva um novo, garantindo de evitar um problema futuro
-        obj = this.userRepository.save(obj);
-        this.taskRepository.saveAll(obj.getTasks());
-        return obj;
+    public  User createUsuario(User usuario) {
+        usuario.setId(null); // Isso garante que vai zera o ID se caso existi e salva um novo, garantindo de evitar um problema futuro
+        usuario = this.userRepository.save(usuario);
+        return usuario;
     }
 
     //Atualização do Usuario
     @Transactional // -> Usar quando quando criar algo ou atualizar
-    public  User update(User obj) {
-        User newObj = findById(obj.getId()); //Garanntido que o usuario que vai atualizar é existente
-        newObj.setPassword(obj.getPassword()); //Deixando que o usuario atualizer so uma senha e não podendo atuliza seu userName
-        return this.userRepository.save(newObj);
+    public  User updateUsuario(User usuario) {
+        User newUsuario = findByIdUsuario(usuario.getId()); //Garanntido que o usuario que vai atualizar é existente
+        newUsuario.setPassword(usuario.getPassword()); //Deixando que o usuario atualizer so uma senha e não podendo atuliza seu userName
+        return this.userRepository.save(newUsuario);
     }
 
     //Ðeleta o Usurio
-    public  User delete(Long id) {
-        findById(id);
+    public  User deleteUsuario(Long id) {
+        findByIdUsuario(id);
         try {
             this.userRepository.deleteById(id);
         } catch (Exception e) {
