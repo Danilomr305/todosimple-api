@@ -7,6 +7,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -52,5 +53,11 @@ public class TaskService {
             throw new RuntimeException("Não é possivel excluir! Pois há entidades relacionadas");
         }
         return  null;
+    }
+
+    //Função para retorna todas as TAkS do User
+    public List<Task> findAllByUserIdTarefa(Long userId) {
+        List<Task> tasks = this.taskRepository.findByUserId(userId);
+        return tasks;
     }
 }

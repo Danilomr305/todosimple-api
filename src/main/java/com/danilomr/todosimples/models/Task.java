@@ -29,7 +29,12 @@ public class Task {
     @Size(min = 1, max = 255)
     private String description;
 
+    // CONSTRUTOR PADRÃO SEM ARGUMENTOS - ADICIONE ESTE!
+    public Task() {
+    }
+
     public Task(Long id) {
+        this.id = id;
     }
 
     public Long getId() {
