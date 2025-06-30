@@ -1,5 +1,6 @@
 package com.danilomr.todosimples.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -83,6 +84,7 @@ public class User {
         this.password = password;
     }
 
+    @JsonIgnore //-> nao vai retorna todas as task do  usuario e assim não se torna uma bagunça
     public List<Task> getTasks() {
         return tasks;
     }
