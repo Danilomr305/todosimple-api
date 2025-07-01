@@ -2,6 +2,7 @@ package com.danilomr.todosimples.controllers;
 
 import com.danilomr.todosimples.models.Task;
 import com.danilomr.todosimples.services.TaskService;
+import com.danilomr.todosimples.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,9 @@ public class TaskController {
 
     @Autowired
     private TaskService taskService;
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/{id}")
     public ResponseEntity<Task> findByIdTarefa(@PathVariable Long id){
@@ -53,6 +57,7 @@ public class TaskController {
     //Função feita para retorna todas as tasks
     @GetMapping("user/{userId}")
     public  ResponseEntity<List<Task>> findAllByUserIdTarefa (@PathVariable Long userId) {
+        userService.findByIdUsuario(userId); //serve para retorna a mensagem, se caso nao existi nenhum user
         List<Task> tasksId = this.taskService.findAllByUserIdTarefa(userId);
         return ResponseEntity.ok().body(tasksId);
     }
